@@ -5,7 +5,8 @@ import nipype.pipeline.engine as pe
 import nipype.interfaces.io as nio
 from nipype.interfaces.utility import IdentityInterface
 import os
-from Doit_SPM import Doit
+from doit_spm import Doit
+
 
 def doit_workflow(data_ref, bin_thresh, base_dir = None, sink_dir = None):
     # data_ref should be a list of pathname
