@@ -11,7 +11,7 @@ import os
 
 class DoitInputSpec(SPMCommandInputSpec):
     data_ref = traits.List(File(exists=True), field="doit.data_ref")
-    bin_thresh = traits.Float(0.5, field="doit.bin_thresh", usedefault=True) #default is 0.5
+    bin_thresh = traits.Any(0.5, field="doit.bin_thresh", usedefault=True) #default is 0.5
 
 
 class DoitOutputSpec(TraitedSpec):

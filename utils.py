@@ -24,7 +24,7 @@ def doit_workflow(data_ref, bin_thresh, base_dir = None, sink_dir = None):
         sink_dir = base_dir
         print("sink_dir is: ", sink_dir)
 
-
+    count = 0
 
 
     # inputs
@@ -39,11 +39,15 @@ def doit_workflow(data_ref, bin_thresh, base_dir = None, sink_dir = None):
                            interface = Doit(),
                            #iterfield = ['data_ref']
                            )
-    #doit_node.iterables = ("bin_thresh", thresh_array)
+    doit_node.iterables = ("bin_thresh", thresh_array)
     #doit_node.inputs.in_file = doit_node.inputs.data_ref
+    print(doit_node.iterables)
+    print(doit_node.inputs.bin_thresh)
 
     #datasink
-    thresh_str = '%.2f' % bin_thresh
+    print(count)
+    thresh_str = '%.2f' % doit_node.iterables[1][count]
+    count += 1
 
     data_sink = pe.Node(nio.DataSink(), name = 'sinker')
     data_sink.inputs.base_directory = sink_dir
@@ -68,7 +72,7 @@ if __name__ == '__main__':
     data_ref = glob("/data/henry1/tristan/LST/FLAIR-MPRAGE/*/*_bin_lesion_map.nii")
     FLAIR_T1_name = data_ref[0].split('/')[5]
     sk_dir = os.path.join('/data/henry1/tristan/LST/opt_thresh_results', FLAIR_T1_name)
-    #thresh_array = np.linspace(0.05, 1.00, num=20)
-    dwf = doit_workflow(data_ref, 0.5, sink_dir=sk_dir)
+    thresh_array = np.linspace(0.05, 1.00, num=20)
+    dwf = doit_workflow(data_ref, thresh_array, sink_dir=sk_dir)
 
     dwf.run()
