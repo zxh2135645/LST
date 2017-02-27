@@ -2,7 +2,7 @@
 Determination of the optimal initial threshold.
 By running this code, csv files will be geneted with threshold for the computation
 of binary lesion maps from 0.05 to 1.00 with increment of 0.05
-The outputs are at __/data/henry1/tristan/LST/opt_thresh_results/<FLAIR-T1name>/__
+The outputs are at __/data/henry1/tristan/LST/opt_thresh_results/<FLAIR-T1name>__
 
 The csv file contains columns for the folder of the reference images,
 the name of FLAIR images, the initial threshold (kappa), the corresponding
