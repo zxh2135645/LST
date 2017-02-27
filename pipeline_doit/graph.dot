@@ -1,0 +1,7 @@
+strict digraph "" {
+"sinker (io)";
+doit_node;
+"inputspec (utility)";
+doit_node -> "sinker (io)";
+"inputspec (utility)" -> doit_node;
+}

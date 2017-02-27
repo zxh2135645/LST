@@ -1,0 +1,509 @@
+{
+    "groups": [
+        {
+            "name": "Group_00001",
+            "procs": [
+                0,
+                1
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00002",
+            "procs": [
+                2,
+                3
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00003",
+            "procs": [
+                4,
+                5
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00004",
+            "procs": [
+                6,
+                7
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00005",
+            "procs": [
+                8,
+                9
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00006",
+            "procs": [
+                10,
+                11
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00007",
+            "procs": [
+                12,
+                13
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00008",
+            "procs": [
+                14,
+                15
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00009",
+            "procs": [
+                16,
+                17
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00010",
+            "procs": [
+                18,
+                19
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00011",
+            "procs": [
+                20,
+                21
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00012",
+            "procs": [
+                22,
+                23
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00013",
+            "procs": [
+                24,
+                25
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00014",
+            "procs": [
+                26,
+                27
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00015",
+            "procs": [
+                28,
+                29
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00016",
+            "procs": [
+                30,
+                31
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00017",
+            "procs": [
+                32,
+                33
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00018",
+            "procs": [
+                34,
+                35
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00019",
+            "procs": [
+                36,
+                37
+            ],
+            "total": 2
+        },
+        {
+            "name": "Group_00020",
+            "procs": [
+                38,
+                39
+            ],
+            "total": 2
+        }
+    ],
+    "links": [
+        {
+            "source": 0,
+            "target": 1,
+            "value": 1
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "value": 1
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "value": 1
+        },
+        {
+            "source": 10,
+            "target": 11,
+            "value": 1
+        },
+        {
+            "source": 12,
+            "target": 13,
+            "value": 1
+        },
+        {
+            "source": 2,
+            "target": 3,
+            "value": 1
+        },
+        {
+            "source": 8,
+            "target": 9,
+            "value": 1
+        },
+        {
+            "source": 18,
+            "target": 19,
+            "value": 1
+        },
+        {
+            "source": 14,
+            "target": 15,
+            "value": 1
+        },
+        {
+            "source": 16,
+            "target": 17,
+            "value": 1
+        },
+        {
+            "source": 30,
+            "target": 31,
+            "value": 1
+        },
+        {
+            "source": 26,
+            "target": 27,
+            "value": 1
+        },
+        {
+            "source": 24,
+            "target": 25,
+            "value": 1
+        },
+        {
+            "source": 22,
+            "target": 23,
+            "value": 1
+        },
+        {
+            "source": 28,
+            "target": 29,
+            "value": 1
+        },
+        {
+            "source": 34,
+            "target": 35,
+            "value": 1
+        },
+        {
+            "source": 20,
+            "target": 21,
+            "value": 1
+        },
+        {
+            "source": 32,
+            "target": 33,
+            "value": 1
+        },
+        {
+            "source": 36,
+            "target": 37,
+            "value": 1
+        },
+        {
+            "source": 38,
+            "target": 39,
+            "value": 1
+        }
+    ],
+    "maxN": 2,
+    "nodes": [
+        {
+            "group": 1,
+            "name": "0_doit_node",
+            "report": "/_bin_thresh_0.2/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.2/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 1,
+            "name": "1_sinker",
+            "report": "/_bin_thresh_0.2/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.2/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 2,
+            "name": "2_doit_node",
+            "report": "/_bin_thresh_0.6/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.6/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 2,
+            "name": "3_sinker",
+            "report": "/_bin_thresh_0.6/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.6/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 3,
+            "name": "4_doit_node",
+            "report": "/_bin_thresh_0.75/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.75/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 3,
+            "name": "5_sinker",
+            "report": "/_bin_thresh_0.75/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.75/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 4,
+            "name": "6_doit_node",
+            "report": "/_bin_thresh_0.4/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.4/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 4,
+            "name": "7_sinker",
+            "report": "/_bin_thresh_0.4/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.4/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 5,
+            "name": "8_doit_node",
+            "report": "/_bin_thresh_0.25/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.25/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 5,
+            "name": "9_sinker",
+            "report": "/_bin_thresh_0.25/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.25/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 6,
+            "name": "10_doit_node",
+            "report": "/_bin_thresh_0.05/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.05/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 6,
+            "name": "11_sinker",
+            "report": "/_bin_thresh_0.05/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.05/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 7,
+            "name": "12_doit_node",
+            "report": "/_bin_thresh_0.95/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.95/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 7,
+            "name": "13_sinker",
+            "report": "/_bin_thresh_0.95/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.95/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 8,
+            "name": "14_doit_node",
+            "report": "/_bin_thresh_0.8/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.8/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 8,
+            "name": "15_sinker",
+            "report": "/_bin_thresh_0.8/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.8/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 9,
+            "name": "16_doit_node",
+            "report": "/_bin_thresh_0.45/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.45/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 9,
+            "name": "17_sinker",
+            "report": "/_bin_thresh_0.45/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.45/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 10,
+            "name": "18_doit_node",
+            "report": "/_bin_thresh_0.65/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.65/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 10,
+            "name": "19_sinker",
+            "report": "/_bin_thresh_0.65/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.65/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 11,
+            "name": "20_doit_node",
+            "report": "/_bin_thresh_0.15/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.15/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 11,
+            "name": "21_sinker",
+            "report": "/_bin_thresh_0.15/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.15/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 12,
+            "name": "22_doit_node",
+            "report": "/_bin_thresh_0.3/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.3/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 12,
+            "name": "23_sinker",
+            "report": "/_bin_thresh_0.3/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.3/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 13,
+            "name": "24_doit_node",
+            "report": "/_bin_thresh_0.1/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.1/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 13,
+            "name": "25_sinker",
+            "report": "/_bin_thresh_0.1/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.1/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 14,
+            "name": "26_doit_node",
+            "report": "/_bin_thresh_1.0/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_1.0/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 14,
+            "name": "27_sinker",
+            "report": "/_bin_thresh_1.0/sinker/_report/report.rst",
+            "result": "/_bin_thresh_1.0/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 15,
+            "name": "28_doit_node",
+            "report": "/_bin_thresh_0.5/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.5/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 15,
+            "name": "29_sinker",
+            "report": "/_bin_thresh_0.5/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.5/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 16,
+            "name": "30_doit_node",
+            "report": "/_bin_thresh_0.7/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.7/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 16,
+            "name": "31_sinker",
+            "report": "/_bin_thresh_0.7/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.7/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 17,
+            "name": "32_doit_node",
+            "report": "/_bin_thresh_0.35/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.35/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 17,
+            "name": "33_sinker",
+            "report": "/_bin_thresh_0.35/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.35/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 18,
+            "name": "34_doit_node",
+            "report": "/_bin_thresh_0.85/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.85/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 18,
+            "name": "35_sinker",
+            "report": "/_bin_thresh_0.85/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.85/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 19,
+            "name": "36_doit_node",
+            "report": "/_bin_thresh_0.9/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.9/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 19,
+            "name": "37_sinker",
+            "report": "/_bin_thresh_0.9/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.9/sinker/result_sinker.pklz"
+        },
+        {
+            "group": 20,
+            "name": "38_doit_node",
+            "report": "/_bin_thresh_0.55/doit_node/_report/report.rst",
+            "result": "/_bin_thresh_0.55/doit_node/result_doit_node.pklz"
+        },
+        {
+            "group": 20,
+            "name": "39_sinker",
+            "report": "/_bin_thresh_0.55/sinker/_report/report.rst",
+            "result": "/_bin_thresh_0.55/sinker/result_sinker.pklz"
+        }
+    ]
+}
