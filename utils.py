@@ -45,13 +45,16 @@ def doit_workflow(data_ref, bin_thresh, base_dir = None, sink_dir = None):
     print(doit_node.inputs.bin_thresh)
 
     #datasink
+
+    """ # This is not necessary
     print(count)
     thresh_str = '%.2f' % doit_node.iterables[1][count]
     count += 1
+    """
 
     data_sink = pe.Node(nio.DataSink(), name = 'sinker')
     data_sink.inputs.base_directory = sink_dir
-    data_sink.inputs.container = thresh_str
+    data_sink.inputs.container = '.'
 
     # Pipeline assembly
     pipeline = pe.Workflow(name = 'pipeline_doit')
@@ -66,7 +69,7 @@ def doit_workflow(data_ref, bin_thresh, base_dir = None, sink_dir = None):
 
     return pipeline
 
-
+"""
 if __name__ == '__main__':
     from glob import glob
     data_ref = glob("/data/henry1/tristan/LST/FLAIR-MPRAGE/*/*_bin_lesion_map.nii")
@@ -76,3 +79,4 @@ if __name__ == '__main__':
     dwf = doit_workflow(data_ref, thresh_array, sink_dir=sk_dir)
 
     dwf.run()
+"""

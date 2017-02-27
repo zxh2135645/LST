@@ -1,0 +1,30 @@
+[
+    [
+        "_outputs",
+        [
+            [
+                "@LST_doit",
+                [
+                    "/home/sf713420/Desktop/LST/pipeline_doit/_bin_thresh_0.85/doit_node/LST_doit_20170225_021555.csv",
+                    "d06b3f5fcb665bae0a05e45f39a166d6"
+                ]
+            ]
+        ]
+    ],
+    [
+        "base_directory",
+        "/data/henry1/tristan/LST/opt_thresh_results/FLAIR-MPRAGE"
+    ],
+    [
+        "container",
+        "0.05"
+    ],
+    [
+        "parameterization",
+        true
+    ],
+    [
+        "remove_dest_dir",
+        false
+    ]
+]

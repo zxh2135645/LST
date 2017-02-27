@@ -1,0 +1,9 @@
+digraph structs {
+node [shape=record];
+pipeline_doitinputspec [label="{IN}|{ inputspec | utility |  }|{OUT|<outdataref> data_ref|<outthresh> thresh}"];
+pipeline_doitdoit_node [label="{IN|<inbinthresh> bin_thresh|<indataref> data_ref}|{ doit_node |  |  }|{OUT|<outcsvfile> csv_file}"];
+pipeline_doitsinker [label="{IN|<inLSTdoit> @LST_doit}|{ sinker | io |  }|{OUT}"];
+pipeline_doitdoit_node:outcsvfile:e -> pipeline_doitsinker:inLSTdoit:w;
+pipeline_doitinputspec:outdataref:e -> pipeline_doitdoit_node:indataref:w;
+pipeline_doitinputspec:outthresh:e -> pipeline_doitdoit_node:inbinthresh:w;
+}
