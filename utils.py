@@ -40,6 +40,7 @@ def doit_workflow(data_ref, bin_thresh, base_dir = None, sink_dir = None):
                            #iterfield = ['data_ref']
                            )
     doit_node.iterables = ("bin_thresh", thresh_array)
+    # TODO
     #doit_node.inputs.in_file = doit_node.inputs.data_ref
     print(doit_node.iterables)
     print(doit_node.inputs.bin_thresh)
