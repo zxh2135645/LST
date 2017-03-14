@@ -12,6 +12,8 @@ sys.path.append(os.path.dirname(__file__))
 import numpy as np
 from doit_spm import Doit
 
+def flatten(l):
+    return [item for sublist in l for item in sublist]
 
 def doit_workflow(data_ref, bin_thresh, base_dir = None, sink_dir = None):
     # data_ref should be a list of pathname
@@ -41,7 +43,6 @@ def doit_workflow(data_ref, bin_thresh, base_dir = None, sink_dir = None):
                            )
     doit_node.iterables = ("bin_thresh", bin_thresh)
     # TODO
-    #doit_node.inputs.in_file = doit_node.inputs.data_ref
     print(doit_node.iterables)
     print(doit_node.inputs.bin_thresh)
 
