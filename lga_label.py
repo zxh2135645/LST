@@ -61,7 +61,7 @@ class GetCenterLesion():
                 if  len(x_sub) == 0 and len(y_sub) == 0 and len(z_sub) == 0:
                     # centroid['missing'][idx] = [x_round, y_round, z_round]
                     # assumption is that there must be voxels in z_round plane
-                    print("Oops, this centroid is not located in the lesion shape",
+                    print("Oops, this centroid is not located in the lesion shape \n",
                           "The coordinate is (x, y, z): ", [x_round, y_round, z_round], '\n',
                           "lesion size is: ", self.lesion_size[idx], "\n",
                           "The lesion coordinate is: ", l_coord,
@@ -112,7 +112,7 @@ class GetCenterLesion():
                         z_sub2 = np.delete(z_sub2, 0)
 
                     if len(x_sub2) == 0 and len(y_sub2) == 0 and len(z_sub2) == 0:
-                        print("Oops, this centroid is still not in the lesion shape",
+                        print("Oops, this centroid is still not in the lesion shape \n",
                               "The coordinate is (x, y, z): ", [x_round2, y_round2, z_round2], '\n',
                               "lesion size is: ", len(new_miss_coord), "\n",
                               "The lesion coordinate is: ", new_miss_coord,
@@ -161,7 +161,7 @@ class GetCenterLesion():
                             centroid['missing'][idx] = {1: [x_round, y_round, z_round],
                                                         2: [x_round2, y_round2, z_round2],
                                                         3: [x_round3, y_round3, z_round3]}
-                            print("Oops, this algorithm did not work.",
+                            print("Oops, this algorithm did not work. \n",
                                   "The coordinate is (x, y, z): ", [x_round3, y_round3, z_round3], '\n',
                                   "lesion size is: ", self.len(new_miss_coord2D), "\n",
                                   "The lesion coordinate is: ", new_miss_coord2D,
@@ -169,35 +169,51 @@ class GetCenterLesion():
                                   "All three levels of centroids are stored in the json file.")
 
             if len(centroid['present']) == idx:
-                print("Great, all the centroids are in the lesion shape!")
+                print("Great, all the centroids are in the lesion shape! The kappa is: ", kappa)
+            elif not centroid['present'] and not centroid['missing']:
+                print("There was no lesion found in this scenario. The kappa is: ", kappa)
+            else:
+                raise ValueError(":( Please try other algorithm to get a valid point of the lesion shape")
 
             kappa_name = '_kappa_' + kappa
             self.centroids[kappa_name] = centroid
         return self.centroids
 
     def make_json(self):
+        centroids = self.run_centroids()
         outdir = os.path.split(os.path.split(self.filename_list[0])[0])[0]
-        save_json(os.path.join(outdir, "centroid_lga.json"), self.centroids)
+        save_json(os.path.join(outdir, "centroid_lga.json"), centroids)
+        print("The json file is generated in the directory: ", outdir)
 
-    def check_missing_points(self):
-        #print(self.centroids)
-        centroids = run_centroids()
-        # TODO
-
-        for i, filename in enumerate(self.filename_list):
-            kappa = os.path.split(filename)[1].split('_')[2]
-            if kappa == '1':
-                kappa = kappa + '.0'
-            kappa_name = '_kappa_' + kappa
-
-            if len(run_centroids()) == (len(self.lesion_size) - 1):
-                print("Great, all the centroids are in the lesion shape for kappa is: ", kappa)
-            else:
-                raise ValueError("Please try other algorithm to get a valid point of the lesion shape")
-
+def load_data(lstpath):
+    img = nib.load(lstpath)
+    data = img.get_data()
+    return data
 
 if __name__ == '__main__':
     from glob import glob
-    f = sorted(glob('/data/henry7/PBR/subjects/mse4413/lst/lga/ms*/_kappa_*/ples_lga_*_rmms*.nii'))
-    lesion = GetCenterLesion(f)
-    lesions = lesion.run_centroids()
+    test_mse = ['mse3727', 'mse4413', 'mse4482', 'mse4739', 'mse4754']
+    for mse in test_mse:
+        np.array(0.05, 1.0, 20)
+        f = sorted(glob('/data/henry7/PBR/subjects/{0}/lst/lga/ms*/_kappa_*/ples_lga_*_rmms*.nii'.format(mse)))
+        lst_edit = glob('/data/henry7/PBR/subjects/{0}/mindcontrol/ms*/lst/lst_edits/no_FP_filled_FN*'.format(mse))
+        if len(lst_edit) > 1:
+            raise ValueError("More than one lst_edits files, please check")
+        elif len(lst_edit) == 0:
+            raise ValueError("No lst_edits file is found, please check your folder")
+        elif len(lst_edit) == 1:
+            lst_edit = ''.join(lst_edit)
+        print(lst_edit)
+        data = load_data(lst_edit)
+        print(np.max(data), np.min(data))
+        Lesion = GetCenterLesion()
+        lesions = Lesion.run_centroids()
+
+
+        """
+        Lesion = GetCenterLesion(f)
+        lesions = Lesion.run_centroids()
+        # A lot 2nd level centroid in mse4482 and mse4754
+        # No lesion for mse3327 since kappa is 1.0
+        # No lesion for mse4439 since kappa is 0.8
+        """
