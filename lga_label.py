@@ -179,8 +179,10 @@ class GetCenterLesion():
             self.centroids[kappa_name] = centroid
         return self.centroids
 
-    def make_json(self):
-        centroids = self.run_centroids()
+    def make_json(self, centroids = None):
+        if centroids is None:
+            centroids = self.run_centroids()
+
         outdir = os.path.split(os.path.split(self.filename_list[0])[0])[0]
         save_json(os.path.join(outdir, "centroid_lga.json"), centroids)
         print("The json file is generated in the directory: ", outdir)
@@ -190,30 +192,64 @@ def load_data(lstpath):
     data = img.get_data()
     return data
 
+def cal_FP(f, lst_edit):
+    kappa_array = np.linspace(0.05, 1.0, 20)
+    if len(lst_edit) > 1:
+        raise ValueError("More than one lst_edits files, please check")
+    elif len(lst_edit) == 0:
+        raise ValueError("No lst_edits file is found, please check your folder")
+    elif len(lst_edit) == 1:
+        lst_edit = ''.join(lst_edit)
+    print("The lst_edit is in the directory: ", lst_edit)
+    lst_data = load_data(lst_edit)
+    # print(np.max(lst_data), np.min(lst_data))
+    Lesion = GetCenterLesion(f)
+    lesions = Lesion.run_centroids()
+    for num in kappa_array:
+        num_str = str(num)
+        kappa_name = '_kappa_' + str(num)
+        if len(lesions[kappa_name]['missing']) != 0:
+            raise ValueError("There is some centroid missed from the algorithm. "
+                             "Please make sure all the center points are found in the lesion.")
+        else:
+            print("Awesome, all the centroids are present in the lesion.")
+
+        lesion_items = sorted(lesions[kappa_name]['present'].items())
+        FP = 0
+        TP = 0
+        lesions[kappa_name]['FalsePositives'] = []
+        lesions[kappa_name]['TruePositives_to_ref'] = []
+        for i, coord in lesion_items:
+            if lst_data[coord[0], coord[1], coord[2]] == 0:
+                lesions[kappa_name]['FalsePositives'].append(i)
+                FP += 1
+            else:
+                lesions[kappa_name]['TruePositives_to_ref'].append(i)
+                TP += 1
+
+        lesions[kappa_name]['NumOfFP'] = FP
+        lesions[kappa_name]['NumOfTP_to_ref'] = TP
+    Lesion.make_json(lesions)
+    return [FP, TP]
+
+
 if __name__ == '__main__':
     from glob import glob
     test_mse = ['mse3727', 'mse4413', 'mse4482', 'mse4739', 'mse4754']
+    FPTP = {}
     for mse in test_mse:
-        np.array(0.05, 1.0, 20)
         f = sorted(glob('/data/henry7/PBR/subjects/{0}/lst/lga/ms*/_kappa_*/ples_lga_*_rmms*.nii'.format(mse)))
         lst_edit = glob('/data/henry7/PBR/subjects/{0}/mindcontrol/ms*/lst/lst_edits/no_FP_filled_FN*'.format(mse))
-        if len(lst_edit) > 1:
-            raise ValueError("More than one lst_edits files, please check")
-        elif len(lst_edit) == 0:
-            raise ValueError("No lst_edits file is found, please check your folder")
-        elif len(lst_edit) == 1:
-            lst_edit = ''.join(lst_edit)
-        print(lst_edit)
-        data = load_data(lst_edit)
-        print(np.max(data), np.min(data))
-        Lesion = GetCenterLesion()
-        lesions = Lesion.run_centroids()
+        FPTP[mse] = cal_FP(f, lst_edit)
 
-
-        """
-        Lesion = GetCenterLesion(f)
-        lesions = Lesion.run_centroids()
         # A lot 2nd level centroid in mse4482 and mse4754
-        # No lesion for mse3327 since kappa is 1.0
-        # No lesion for mse4439 since kappa is 0.8
+        # No lesion for mse3327 when kappa is 1.0
+        # No lesion for mse4439 when kappa is or greater than 0.8
+
         """
+        outdir = os.path.split(os.path.split(f[0])[0])[0]
+        save_json(os.path.join(outdir, "centroid_lga.json"), lesions)
+        """
+
+
+
