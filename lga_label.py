@@ -4,6 +4,8 @@ import numpy as np
 import nibabel as nib
 from scipy.ndimage import label
 from nipype.utils.filemanip import save_json, load_json
+from copy import deepcopy
+import operator
 
 class GetCenterLesion():
 
@@ -78,8 +80,14 @@ class GetCenterLesion():
                     x_in_left = []
                     y_in_left = []
                     miss_coord_left = []
+                    x_in_up = []
+                    y_in_up = []
+                    miss_coord_up = []
+                    x_in_down = []
+                    y_in_down = []
+                    miss_coord_down = []
                     for i in range(self.lesion_size[idx]):
-                        if z_round == z[i]:
+                        if z[i] == z_round:
                             if x[i] >= x_round:
                                 x_in_right.append(x[i])
                                 y_in_right.append(y[i])
@@ -88,21 +96,49 @@ class GetCenterLesion():
                                 x_in_left.append(x[i])
                                 y_in_left.append(y[i])
                                 miss_coord_left.append((x[i], y[i], z[i]))
+                            if y[i] >= y_round:
+                                x_in_up.append(x[i])
+                                y_in_up.append(y[i])
+                                miss_coord_up.append([x[i], y[i], z[i]])
+                            if y[i] <= y_round:
+                                x_in_down.append(x[i])
+                                y_in_down.append(y[i])
+                                miss_coord_down.append([x[i], y[i], z[i]])
 
                     # print(miss_coord)
+                    #coord_list = [len(miss_coord_right), len(miss_coord_up), len(miss_coord_left), len(miss_coord_down)]
+                    #max_index, max_value = max(enumerate(coord_list), key=operator.itemgetter(1))
+
                     if len(miss_coord_right) >= len(miss_coord_left):
-                        new_miss_coord = miss_coord_right
-                        x_in_new = x_in_right
-                        y_in_new = y_in_right
+                        new_miss_coord_lr = miss_coord_right
+                        x_in_new_lr = x_in_right
+                        y_in_new_lr = y_in_right
                     else:
-                        new_miss_coord = miss_coord_left
-                        x_in_new = x_in_left
-                        y_in_new = y_in_left
+                        new_miss_coord_lr = miss_coord_left
+                        x_in_new_lr = x_in_left
+                        y_in_new_lr = y_in_left
+
+                    if len(miss_coord_up) >= len(miss_coord_down):
+                        new_miss_coord_ud = miss_coord_up
+                        x_in_new_ud = x_in_up
+                        y_in_new_ud = y_in_up
+                    else:
+                        new_miss_coord_ud = miss_coord_down
+                        x_in_new_ud = x_in_down
+                        y_in_new_ud = y_in_down
+
+                    if len(new_miss_coord_lr) >= len(new_miss_coord_ud):
+                        x_in_new = x_in_new_lr
+                        y_in_new = y_in_new_lr
+                        new_miss_coord = new_miss_coord_lr
+                    else:
+                        x_in_new = x_in_new_ud
+                        y_in_new = y_in_new_ud
+                        new_miss_coord = new_miss_coord_ud
 
                     x_round2 = int(round(np.mean(x_in_new)))
                     y_round2 = int(round(np.mean(y_in_new)))
                     z_round2 = z_round
-
                     x_sub2 = x_in_new
                     y_sub2 = y_in_new
                     z_sub2 = [z_round2] * len(new_miss_coord)
@@ -129,6 +165,10 @@ class GetCenterLesion():
                         miss_coord_right2D = []
                         x_in_left2D = []
                         miss_coord_left2D = []
+                        y_in_up2D = []
+                        miss_coord_up2D = []
+                        y_in_down2D = []
+                        miss_coord_down2D = []
 
                         for i in range(len(new_miss_coord)):
                             if y_in_new[i] == y_round2:
@@ -138,30 +178,64 @@ class GetCenterLesion():
                                 if x_in_new[i] <= x_round2:
                                     x_in_left2D.append(x_in_new[i])
                                     miss_coord_left2D.append([x_in_new[i], y_in_new[i]])
+                            if x_in_new[i] == x_round2:
+                                if y_in_new[i] >= y_round2:
+                                    y_in_up2D.append(y_in_new[i])
+                                    miss_coord_up2D.append([x_in_new[i], y_in_new[i]])
+                                if y_in_new[i] <= y_round2:
+                                    y_in_down2D.append(y_in_new[i])
+                                    miss_coord_down2D.append([x_in_new[i], y_in_new[i]])
 
                         if len(miss_coord_right2D) >= len(miss_coord_left2D):
                             x_in_new2D = x_in_right2D
-                            new_miss_coord2D = miss_coord_right2D
+                            new_miss_coord2D_lr = miss_coord_right2D
                         else:
                             x_in_new2D = x_in_left2D
-                            new_miss_coord2D = miss_coord_left2D
+                            new_miss_coord2D_lr = miss_coord_left2D
 
-                        x_round3 = int(round(np.mean(x_in_new2D)))
-                        y_round3 = y_round2
-                        z_round3 = z_round2
+                        if len(miss_coord_up2D) >= len(miss_coord_down2D):
+                            y_in_new2D = y_in_up2D
+                            new_miss_coord2D_ud = miss_coord_up2D
+                        else:
+                            y_in_new2D = y_in_down2D
+                            new_miss_coord2D_ud = miss_coord_down2D
 
-                        x_sub3 = x_in_new2D
-                        y_sub3 = [y_round3] * len(new_miss_coord2D)
-                        z_sub3 = [z_round3] * len(new_miss_coord2D)
+                        if len(x_in_new2D) >= len(y_in_new2D):
+                            x_round3 = int(round(np.mean(x_in_new2D)))
+                            y_round3 = y_round2
+                            z_round3 = z_round2
+                            new_miss_coord2D = new_miss_coord2D_lr
+                            x_sub3 = x_in_new2D
+                            y_sub3 = [y_round3] * len(new_miss_coord2D)
+                            z_sub3 = [z_round3] * len(new_miss_coord2D)
 
-                        for i in range(len(new_miss_coord2D)):
-                            if x_in_new2D[i] == x_round3:
-                                centroid['present'][idx] = [x_round3, y_round3, z_round3]
-                                # centroid['present'][idx]['LesionSize'] = self.lesion_size[idx]
-                                break
-                            x_sub3 = np.delete(x_sub3, 0)
-                            y_sub3 = np.delete(y_sub3, 0)
-                            z_sub3 = np.delete(z_sub3, 0)
+                            for i in range(len(new_miss_coord2D)):
+                                if x_in_new2D[i] == x_round3:
+                                    centroid['present'][idx] = [x_round3, y_round3, z_round3]
+                                    print("Congrats! The centroid is found in the 3rd level")
+                                    # centroid['present'][idx]['LesionSize'] = self.lesion_size[idx]
+                                    break
+                                x_sub3 = np.delete(x_sub3, 0)
+                                y_sub3 = np.delete(y_sub3, 0)
+                                z_sub3 = np.delete(z_sub3, 0)
+                        else:
+                            x_round3 = x_round2
+                            y_round3 = int(round(np.mean(y_in_new2D)))
+                            z_round3 = z_round2
+                            new_miss_coord2D = new_miss_coord2D_ud
+                            x_sub3 = [x_round3] * len(new_miss_coord2D)
+                            y_sub3 = y_in_new2D
+                            z_sub3 = [z_round3] * len(new_miss_coord2D)
+
+                            for i in range(len(new_miss_coord2D)):
+                                if y_in_new2D[i] == y_round3:
+                                    centroid['present'][idx] = [x_round3, y_round3, z_round3]
+                                    print("Congrats! The centroid is found in the 3rd level")
+                                    # centroid['present'][idx]['LesionSize'] = self.lesion_size[idx]
+                                    break
+                                x_sub3 = np.delete(x_sub3, 0)
+                                y_sub3 = np.delete(y_sub3, 0)
+                                z_sub3 = np.delete(z_sub3, 0)
 
                         if len(x_sub3) == 0 and len(y_sub3) == 0 and len(z_sub3) == 0:
                             # centroid['missing'][idx] = {}
@@ -186,7 +260,9 @@ class GetCenterLesion():
                 kappa_name = kappa
             else:
                 kappa_name = '_kappa_' + kappa
-            self.centroids[kappa_name] = centroid
+
+            centroid_temp = deepcopy(centroid)
+            self.centroids[kappa_name] = centroid_temp
 
         return self.centroids
 
@@ -196,14 +272,6 @@ class GetCenterLesion():
 
         outdir = os.path.split(os.path.split(self.filename_list[0])[0])[0]
         save_json(os.path.join(outdir, "centroid_lga.json"), centroids)
-        print("The json file is generated in the directory: ", outdir)
-
-    def make_lst_edit_json(self, centroids = None):
-        if centroids is None:
-            centroids = self.run_centroids()
-
-        outdir = os.path.split(os.path.split(self.filename_list[0])[0])[0]
-        save_json(os.path.join(outdir, "centroid_lst_edit.json"), centroids)
         print("The json file is generated in the directory: ", outdir)
 
 def load_data(lstpath):
@@ -261,34 +329,54 @@ def cal_FN(f, lst_edit):
 
     print("The lst_edit is in the directory: ", lst_edit)
     lga_data = [load_data(f_kappa) for f_kappa in f]
+    print("There are {} elements in lga data".format(len(lga_data)))
+    # print("Lga 0 is: ", lga_data[0])
+    print("Check if it's 1 for mse3727: ", lga_data[0][52,102,47], lga_data[0][52,103,47])
+
     Lesion = GetCenterLesion(lst_edit)
     lesions = Lesion.run_centroids()
+    ref_lesion = 'reference'
+    if len(lesions[ref_lesion]['missing']) != 0:
+        raise ValueError("There is some centroid missed from the algorithm. "
+                             "Please make sure all the center points are found in the lesion.")
+    else:
+        print("Awesome, all the centroids are present in the lesion.")
+
+    ref_lesion_to_kappas = {}
+
     for k, num in enumerate(kappa_array):
         num_str = str(num)
-        kappa_name = 'reference'
-        if len(lesions[kappa_name]['missing']) != 0:
-            raise ValueError("There is some centroid missed from the algorithm. "
-                             "Please make sure all the center points are found in the lesion.")
-        else:
-            print("Awesome, all the centroids are present in the lesion.")
-
-        lesion_items = sorted(lesions[kappa_name]['present'].items())
+        kappa_name = '_kappa_' + num_str
+        lesion_items = sorted(lesions[ref_lesion]['present'].items())
+        print("Lesion items are: ", lesion_items)
         FN = 0
         TP = 0
-        lesions[kappa_name]['FalseNegatives'] = []
-        lesions[kappa_name]['TruePositives_to_lga'] = []
+        lesions[ref_lesion]['FalseNegatives'] = []
+        lesions[ref_lesion]['TruePositives_to_lga'] = []
         for i, coord in lesion_items:
+            print(i, coord)
             if lga_data[k][coord[0], coord[1], coord[2]] == 0:
             # if lga_data[coord['xyz'][0], coord['xyz'][1], coord['xyz'][2]] == 0:
-                lesions[kappa_name]['FalseNegatives'].append(i)
+                lesions[ref_lesion]['FalseNegatives'].append(i)
                 FN += 1
+                print("Oops, FN plus 1! FN is: ", FN)
             else:
-                lesions[kappa_name]['TruePositives_to_lga'].append(i)
+                lesions[ref_lesion]['TruePositives_to_lga'].append(i)
                 TP += 1
+                print("Yay! TP plus 1! TP is: ", TP)
 
-        lesions[kappa_name]['NumOfFN'] = FN
-        lesions[kappa_name]['NumOfTP_to_lga'] = TP
-    Lesion.make_lst_edit_json(lesions)
+        print("FN, TP and kappa are: ", FN, TP, kappa_name)
+        lesions[ref_lesion]['NumOfFN'] = FN
+        lesions[ref_lesion]['NumOfTP_to_lga'] = TP
+        print("After adding FN and TP, the lesion dictionary is: ", lesions)
+        lesions_temp = deepcopy(lesions)
+        ref_lesion_to_kappas[kappa_name] = lesions_temp
+        print("After making a bigger dict to ref_lesion_to_kappas: ", ref_lesion_to_kappas)
+
+    print("After all kappas, the ref_lesion_to_kappas looks: ", ref_lesion_to_kappas)
+    outdir = os.path.split(os.path.split(f[0])[0])[0]
+    save_json(os.path.join(outdir, "centroid_lst_edit.json"), ref_lesion_to_kappas)
+    print("The json file is generated in the directory: ", outdir)
     return [FN, TP]
 
 
@@ -301,6 +389,7 @@ if __name__ == '__main__':
         f = sorted(glob('/data/henry7/PBR/subjects/{0}/lst/lga/ms*/_kappa_*/ples_lga_*_rmms*.nii'.format(mse)))
         lst_edit = glob('/data/henry7/PBR/subjects/{0}/mindcontrol/ms*/lst/lst_edits/no_FP_filled_FN*'.format(mse))
         FPTP[mse] = cal_FP(f, lst_edit)
+        # for cal_FN debugging
         FNTP[mse] = cal_FN(f, lst_edit)
         # A lot 2nd level centroid in mse4482 and mse4754
         # No lesion for mse3327 when kappa is 1.0
