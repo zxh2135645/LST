@@ -88,6 +88,8 @@ def get_new_metric(lesion_DC, LST_doit):
 
 
 if __name__ == '__main__':
+    # This script is basically calculating lesion based Dice Coefficient and new metrics for lga algorithm
+
     test_mse = ['mse3727', 'mse4413', 'mse4482', 'mse4739', 'mse4754']
     # data_dict = cal_lDC(test_mse)
     # print(data_dict)
